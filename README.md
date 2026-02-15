@@ -112,6 +112,14 @@ MIT - Based on [ClawAPI by Gogo6969](https://github.com/Gogo6969/clawapi)
 
 ---
 
+## Support Development
+
+If you find ClawAPI useful, consider supporting development:
+
+**Bitcoin:** `bc1q733czwuelntfug8jgur6md2lhzcx7l5ufks9y7`
+
+---
+
 ## Links
 
 - **Original macOS App**: https://github.com/Gogo6969/clawapi
