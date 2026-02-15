@@ -1,91 +1,85 @@
-# ClawAPI Linux
+# ClawAPI
+#model-switcher #key-vault #openclaw
 
-Model Switcher & Key Vault for OpenClaw - Linux Version
+Model Switcher & Key Vault for OpenClaw - Cross-platform
 
-A cross-platform CLI tool for managing AI API keys and switching models in OpenClaw.
+A cross-platform CLI + Web UI for managing AI API keys and switching models in [OpenClaw](https://openclaw.app).
 
-## Features
+Supports OpenAI, Anthropic, Google, xAI, Groq, Mistral, Ollama, MiniMax, Zhipu AI, OpenRouter, Cerebras, HuggingFace, Kimi Coding, OpenCode, and Vercel AI Gateway.
 
-- 🔐 **Secure Key Storage** - Encrypted API key storage using Fernet encryption
-- 🔄 **Model Switching** - Quick model selection from 15+ providers
-- 📋 **Provider Support** - OpenAI, Anthropic, Google, xAI, Groq, Mistral, Ollama, MiniMax, Zhipu AI
-- 🐧 **Linux Native** - Built for Linux using Python
+## Install
 
-## Installation
-
+### Linux/macOS
 ```bash
-cd clawapi-linux
-./install.sh
+curl -fsSL https://raw.githubusercontent.com/Franzferdinan51/clawapi/main/install.sh | bash
 ```
 
 Or manually:
 ```bash
-pip install cryptography
-chmod +x clawapi-linux.py
-sudo cp clawapi-linux.py /usr/local/bin/clawapi-linux
+cd clawapi-linux
+pip install -r requirements.txt
+chmod +x clawapi.py
+sudo cp clawapi.py /usr/local/bin/clawapi
 ```
+
+### Windows
+```bash
+# Option 1: Run install.bat
+install.bat
+
+# Option 2: Manual
+python -m venv .venv
+.venv\Scripts\activate.bat
+pip install flask cryptography requests
+python clawapi.py
+```
+
+## Features
+
+- 🔐 **Secure Key Storage** - Encrypted API key storage (Fernet/AES)
+- 🔄 **Model Switching** - Quick model selection from 15+ providers
+- 📋 **15+ Providers** - OpenAI, Anthropic, Google, xAI, Groq, Mistral, Ollama, MiniMax, Zhipu AI, OpenRouter, Cerebras, HuggingFace, Kimi Coding, OpenCode, Vercel
+- 🖥️ **Web UI** - Flask-based dashboard (port 5001)
+- 🔁 **Auto-Sync** - Changes written directly to OpenClaw config
+- 🌐 **Cross-Platform** - Linux, macOS, Windows
 
 ## Usage
 
-### List Providers
+### CLI
 ```bash
-clawapi-linux list
+clawapi list                      # List all providers
+clawapi add openai sk-xxx...      # Add API key
+clawapi models openai            # List models for provider
+clawapi set openai gpt-4o         # Set default model
+clawapi show openai              # Show masked key
+clawapi remove openai             # Remove provider
 ```
 
-### Add API Key
+### Web UI
 ```bash
-clawapi-linux add openai sk-xxx...
-clawapi-linux add anthropic sk-ant-xxx...
-clawapi-linux add google AIza.xxx...
+# Linux/macOS
+source .venv/bin/activate
+python webui.py
+
+# Windows
+.venv\Scripts\activate.bat
+python webui.py
 ```
 
-### List Models
-```bash
-clawapi-linux models openai
-clawapi-linux models anthropic
-```
+Then open http://localhost:5001
 
-### Set Default Model
-```bash
-clawapi-linux set openai gpt-4o
-clawapi-linux set anthropic claude-sonnet-4-6
-```
+## Configuration
 
-### Show Key (Masked)
-```bash
-clawapi-linux show openai
-```
-
-### Remove Key
-```bash
-clawapi-linux remove openai
-```
-
-## Supported Providers
-
-| Provider | Status | Local |
-|----------|--------|-------|
-| OpenAI | ✓ | No |
-| Anthropic | ✓ | No |
-| Google | ✓ | No |
-| xAI | ✓ | No |
-| Groq | ✓ | No |
-| Mistral | ✓ | No |
-| Ollama | ✓ | Yes |
-| MiniMax | ✓ | No |
-| Zhipu AI (GLM) | ✓ | No |
+- **Linux**: `~/.config/clawapi/`
+- **macOS**: `~/Library/Application Support/ClawAPI/`
+- **Windows**: `%APPDATA%\ClawAPI\`
 
 ## Security
 
-- API keys are encrypted using Fernet (symmetric encryption)
-- Master key stored in `~/.config/clawapi/.master.key` (mode 600)
-- Keys stored in `~/.config/clawapi/keys.enc` (mode 600)
-
-## Requirements
-
-- Python 3.8+
-- cryptography library
+- API keys encrypted with Fernet (AES-128)
+- Master key stored in config directory (mode 600)
+- Keys stored encrypted on disk
 
 ## License
 
-MIT
+MIT - Based on ClawAPI by Gogo6969
