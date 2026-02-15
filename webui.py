@@ -29,11 +29,11 @@ OPENCLAW_CONFIG = Path.home() / ".openclaw" / "openclaw.json"
 # Ensure config directory exists
 CONFIG_DIR.mkdir(parents=True, exist_ok=True)
 
-# Supported providers (matching CLI)
+# Supported providers (matching CLI + new providers from v1.4)
 PROVIDERS = {
     "openai": {
         "name": "OpenAI",
-        "models": ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "o1", "o1-mini", "o3-mini"],
+        "models": ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "o1", "o1-mini", "o3-mini", "gpt-4.5"],
         "default_model": "gpt-4o",
         "billing_url": "https://platform.openai.com/settings/organization/usage",
         "local": False
@@ -47,51 +47,94 @@ PROVIDERS = {
     },
     "google": {
         "name": "Google",
-        "models": ["gemini-2.0-flash", "gemini-2.0-flash-exp", "gemini-1.5-pro", "gemini-1.5-flash", "gemini-1.5-flash-8b"],
+        "models": ["gemini-2.0-flash", "gemini-2.0-flash-exp", "gemini-1.5-pro", "gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-2.5-pro"],
         "default_model": "gemini-2.0-flash",
         "billing_url": "https://aistudio.google.com/app/billing",
         "local": False
     },
     "xai": {
         "name": "xAI",
-        "models": ["grok-2", "grok-2-vision", "grok-beta", "grok-vision-beta"],
+        "models": ["grok-2", "grok-2-vision", "grok-beta", "grok-vision-beta", "grok-3", "grok-3-mini"],
         "default_model": "grok-2",
         "billing_url": "https://console.x.ai",
         "local": False
     },
     "groq": {
         "name": "Groq",
-        "models": ["llama-3.3-70b-versatile", "mixtral-8x7b-32768", "llama-3.1-70b-versatile", "gemma2-9b-it"],
+        "models": ["llama-3.3-70b-versatile", "mixtral-8x7b-32768", "llama-3.1-70b-versatile", "gemma2-9b-it", "qwen-2.5-32b"],
         "default_model": "llama-3.3-70b-versatile",
         "billing_url": "https://console.groq.com/usage",
         "local": False
     },
     "mistral": {
         "name": "Mistral",
-        "models": ["mistral-large-latest", "mistral-small-latest", "codestral-latest"],
+        "models": ["mistral-large-latest", "mistral-small-latest", "codestral-latest", "pixtral-large-mistral-nemo"],
         "default_model": "mistral-small-latest",
         "billing_url": "https://console.mistral.ai/home",
         "local": False
     },
     "ollama": {
         "name": "Ollama",
-        "models": ["llama3.3", "llama3.2", "llama3.1", "qwen2.5", "mistral", "codellama", "phi4"],
+        "models": ["llama3.3", "llama3.2", "llama3.1", "qwen2.5", "mistral", "codellama", "phi4", "deepseek-llm", "command-r"],
         "default_model": "llama3.3",
         "local": True,
         "billing_url": None
     },
     "minimax": {
         "name": "MiniMax",
-        "models": ["MiniMax-M2.1", "MiniMax-M2.1-lightning"],
+        "models": ["MiniMax-M2.1", "MiniMax-M2.1-lightning", "abab6.5s-chat", "abab6.5g-chat", "abab6"],
         "default_model": "MiniMax-M2.1",
         "billing_url": "https://platform.minimax.io/",
         "local": False
     },
     "zai": {
         "name": "Zhipu AI (GLM)",
-        "models": ["glm-4", "glm-4-flash", "glm-4-plus", "glm-4v", "glm-5"],
+        "models": ["glm-4", "glm-4-flash", "glm-4-plus", "glm-4v", "glm-5", "glm-4-vision"],
         "default_model": "glm-4",
         "billing_url": "https://open.bigmodel.cn/",
+        "local": False
+    },
+    # New providers from v1.4
+    "openrouter": {
+        "name": "OpenRouter",
+        "models": ["anthropic/claude-3.5-sonnet", "openai/gpt-4o", "google/gemini-pro-1.5", "meta-llama/llama-3.1-70b-instruct", "mistralai/mistral-large"],
+        "default_model": "anthropic/claude-3.5-sonnet",
+        "billing_url": "https://openrouter.ai/settings/keys",
+        "local": False
+    },
+    "cerebras": {
+        "name": "Cerebras",
+        "models": ["llama-3.3-70b", "llama-3.1-70b", "mixtral-8x7b", "qwen-2.5-32b"],
+        "default_model": "llama-3.3-70b",
+        "billing_url": "https://cloud.cerebras.ai/",
+        "local": False
+    },
+    "huggingface": {
+        "name": "HuggingFace",
+        "models": ["meta-llama/Llama-3.3-70B-Instruct", "Qwen/Qwen2.5-72B-Instruct", "mistralai/Mixtral-8x7B-Instruct-v0.1"],
+        "default_model": "meta-llama/Llama-3.3-70B-Instruct",
+        "billing_url": "https://huggingface.io/settings/billing",
+        "local": False
+    },
+    "kimi-coding": {
+        "name": "Kimi Coding (Moonshot)",
+        "models": ["kimi-coder-flash", "kimi-coder", "kimi-long"],
+        "default_model": "kimi-coder-flash",
+        "billing_url": "https://platform.moonshot.cn/",
+        "local": False
+    },
+    "opencode": {
+        "name": "OpenCode",
+        "models": ["opencode", "opencode-32b", "opencode-8b"],
+        "default_model": "opencode",
+        "billing_url": "https://opencode.ai/",
+        "local": False
+    },
+    "vercel-ai-gateway": {
+        "name": "Vercel AI Gateway",
+        "models": ["gpt-4o", "claude-3.5-sonnet", "gemini-1.5-pro"],
+        "default_model": "gpt-4o",
+        "billing_url": "https://vercel.com/dashboard/ai-gateway",
         "local": False
     }
 }
